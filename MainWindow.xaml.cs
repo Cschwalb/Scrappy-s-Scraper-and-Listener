@@ -22,33 +22,114 @@ namespace WebScraper
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static string sOfficial = "https://www.streetwearofficial.com/collections/fresh-arrivals/products/saucony-jazz-dst-rose-blue?variant=36704875380904";
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void EventTrigger_Click(object sender, RoutedEventArgs e)
+        public void getData(string sWebsiteChoice)
         {
-            string sWebsite = "https://google.com";
-            HttpWebRequest hFirstRequest = (HttpWebRequest)WebRequest.Create(sWebsite);
+            string sWebsite = sWebsiteChoice;
+            CookieContainer cCookieContainer = new CookieContainer();
+            HttpWebRequest hFirstRequest = hFirstRequest = (HttpWebRequest)WebRequest.Create(sWebsite);
+            hFirstRequest.Method = "GET";
+            hFirstRequest.CookieContainer = cCookieContainer;
+            hFirstRequest.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            hFirstRequest.UserAgent = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36";
             HttpWebResponse hRes = (HttpWebResponse)hFirstRequest.GetResponse();
             Stream resourceStream = hRes.GetResponseStream();
             string tempString = null;
             int nCount = 0;
             do
             {
-                byte[] bByteBuffer = new byte[1024];
+                byte[] bByteBuffer = new byte[2560000];
                 nCount = resourceStream.Read(bByteBuffer, 0, bByteBuffer.Length);
-                if(nCount == 0)
+                if (nCount == 0)
                 {
                     MessageBox.Show("No count on buffer read!");
                 }
                 else
                 {
                     tempString = Encoding.ASCII.GetString(bByteBuffer, 0, nCount);
-                    MessageBox.Show(tempString, "It worked...");
+                    OutputBox.Text = tempString;
                 }
             } while (nCount > 0); // read data until death do us part...
+        }
+
+        private void EventTrigger_Click(object sender, RoutedEventArgs e)
+        {
+            getData(sOfficial);
+        }
+
+        public int getDataCount(string sWebsiteChoice, int numberOfRuns, int nSeconds)
+        {
+            string sWebsite = sWebsiteChoice;
+            CookieContainer cCookieContainer = new CookieContainer();
+            HttpWebRequest hFirstRequest = hFirstRequest = (HttpWebRequest)WebRequest.Create(sWebsite);
+            hFirstRequest.Method = "GET";
+            hFirstRequest.CookieContainer = cCookieContainer;
+            hFirstRequest.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            hFirstRequest.UserAgent = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36";
+            HttpWebResponse hRes = (HttpWebResponse)hFirstRequest.GetResponse();
+            Stream resourceStream = hRes.GetResponseStream();
+            string tempString = null;
+            int nCount = 0;
+            int nCountOld = 0;
+            int nTouched = 0;
+            int nStart = 0;
+            while (nStart < numberOfRuns)
+            {
+                Console.WriteLine("test");
+                do
+                {
+                    byte[] bByteBuffer = new byte[2560000];
+                    Console.WriteLine("Count original: {0} New Count {1}", nCountOld, nCount);
+                    nCountOld = nCount;
+                    nCount = resourceStream.Read(bByteBuffer, 0, bByteBuffer.Length);
+                    if (nCount != nCountOld)
+                    {
+                        nTouched += 1;
+                        Console.WriteLine("caleb found a file!");
+                    }
+                } while (nCount > 0); // read data until death do us part...
+                System.Threading.Thread.Sleep(nSeconds * 1000);
+                nStart++;
+            }
+            return nTouched -= 1;
+        }
+
+        private void Listen_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("starting run!");
+            int nEdited = getDataCount(sOfficial, 7, 8);
+            MessageBox.Show(string.Format("edited this many times {0}", nEdited));
+        }
+
+        private void SearchRead_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(this.searchBox.Text);
+            if(this.OutputBox.LineCount <= 0)
+            {
+                MessageBox.Show("cannot search string!  Populate Read first!");
+            }
+            else
+            {
+                if(this.OutputBox.Text.Contains(this.searchBox.Text))
+                {
+                    MessageBox.Show("Contains searched string!");
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Not found");
+                }
+            }
+        }
+
+        private void parseThis_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(Utility.parseData(this.OutputBox.Text, this.searchBox.Text));
         }
     }
 }
