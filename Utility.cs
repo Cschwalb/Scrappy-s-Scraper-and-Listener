@@ -41,5 +41,17 @@ namespace WebScraper
             UTF8Encoding objUTF8 = new UTF8Encoding();
             MessageBox.Show(objUTF8.GetString(reqHTML));
         }
+
+        public static void readDoc(string sData)
+        {
+            HtmlAgilityPack.HtmlDocument htmlDoc = new HtmlAgilityPack.HtmlDocument();
+            HtmlAgilityPack.HtmlDocument loadedPage = new HtmlAgilityPack.HtmlDocument();
+            loadedPage.Load(sData);
+            HtmlAgilityPack.HtmlNode[] nodes = loadedPage.DocumentNode.SelectNodes("//a").ToArray();
+            foreach(HtmlAgilityPack.HtmlNode item in nodes)
+            {
+                Console.WriteLine(item.InnerHtml);
+            }
+        }
     }
 }

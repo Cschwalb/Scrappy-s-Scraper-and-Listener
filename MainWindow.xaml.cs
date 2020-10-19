@@ -47,7 +47,7 @@ namespace WebScraper
                 nCount = resourceStream.Read(bByteBuffer, 0, bByteBuffer.Length);
                 if (nCount == 0)
                 {
-                    MessageBox.Show("No count on buffer read!");
+                    continue;
                 }
                 else
                 {
@@ -57,9 +57,38 @@ namespace WebScraper
             } while (nCount > 0); // read data until death do us part...
         }
 
+        public string getDataString(string sWebsiteChoice)
+        {
+            string sWebsite = sWebsiteChoice;
+            CookieContainer cCookieContainer = new CookieContainer();
+            HttpWebRequest hFirstRequest = hFirstRequest = (HttpWebRequest)WebRequest.Create(sWebsite);
+            hFirstRequest.Method = "GET";
+            hFirstRequest.CookieContainer = cCookieContainer;
+            hFirstRequest.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            hFirstRequest.UserAgent = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36";
+            HttpWebResponse hRes = (HttpWebResponse)hFirstRequest.GetResponse();
+            Stream resourceStream = hRes.GetResponseStream();
+            string tempString = " ";
+            int nCount = 0;
+            do
+            {
+                byte[] bByteBuffer = new byte[2560000];
+                nCount = resourceStream.Read(bByteBuffer, 0, bByteBuffer.Length);
+                if (nCount == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    tempString += Encoding.ASCII.GetString(bByteBuffer, 0, nCount);
+                }
+            } while (nCount > 0); // read data until death do us part...
+            return tempString;
+        }
         private void EventTrigger_Click(object sender, RoutedEventArgs e)
         {
-            getData(sOfficial);
+            this.OutputBox.Text = getDataString(sOfficial);
+           
         }
 
         public int getDataCount(string sWebsiteChoice, int numberOfRuns, int nSeconds)
@@ -129,7 +158,12 @@ namespace WebScraper
 
         private void parseThis_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Utility.parseData(this.OutputBox.Text, this.searchBox.Text));
+            OutputBox.Text = Utility.parseData(this.OutputBox.Text, this.searchBox.Text);
+        }
+
+        private void ReadHTML_Click(object sender, RoutedEventArgs e)
+        {
+            Utility.readDoc(getDataString(sOfficial));
         }
     }
 }

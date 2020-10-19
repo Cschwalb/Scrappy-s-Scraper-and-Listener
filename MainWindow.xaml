@@ -15,12 +15,11 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="EventTrigger" Content="Read" HorizontalAlignment="Left" Margin="32,21,0,0" VerticalAlignment="Top" Width="154" Click="EventTrigger_Click" Grid.ColumnSpan="3" Background="#FFF50F0F"/>
         <TextBox x:Name="OutputBox" HorizontalAlignment="Left" Height="544" Margin="81,21,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="765" FontFamily="Segoe UI Black" FontStyle="Italic" Background="#FF6A6A78" Grid.Column="3"/>
-        <Border BorderBrush="#FF0D112E" BorderThickness="2" Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="133" Margin="10,0,0,0" VerticalAlignment="Top" Width="280" RenderTransformOrigin="0.449,1.428">
-            <TextBox x:Name="searchBox" TextWrapping="Wrap" Text="Search..." Margin="-2,113,-2,-34"/>
-        </Border>
         <Button x:Name="Listen" Content="Listen..." Grid.Column="1" HorizontalAlignment="Left" Margin="32,49,0,0" VerticalAlignment="Top" Width="154" Grid.ColumnSpan="2" FontStyle="Italic" Background="#FF2A3866" Click="Listen_Click"/>
         <Button x:Name="SearchRead" Content="Search" Grid.Column="1" HorizontalAlignment="Left" Margin="32,179,0,0" VerticalAlignment="Top" Width="232" Grid.ColumnSpan="3" Click="SearchRead_Click"/>
-        <Button x:Name="parseThis" Content="Parse" Grid.Column="1" HorizontalAlignment="Left" Margin="32,221,0,0" VerticalAlignment="Top" Width="232" Grid.ColumnSpan="3" Click="parseThis_Click"/>
+        <Button x:Name="parseThis" Content="Parse" Grid.Column="1" HorizontalAlignment="Left" Margin="32,204,0,0" VerticalAlignment="Top" Width="232" Grid.ColumnSpan="3" Click="parseThis_Click"/>
+        <Button x:Name="ReadHTML" Content="ReadHTML" Grid.Column="1" HorizontalAlignment="Left" Margin="32,229,0,0" VerticalAlignment="Top" Width="232" Grid.ColumnSpan="3" Click="ReadHTML_Click"/>
+        <TextBox x:Name="searchBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="32,151,0,0" TextWrapping="Wrap" Text="Search..." VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>
