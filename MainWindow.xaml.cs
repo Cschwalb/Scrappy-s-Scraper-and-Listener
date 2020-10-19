@@ -163,7 +163,7 @@ namespace WebScraper
 
         private void ReadHTML_Click(object sender, RoutedEventArgs e)
         {
-            Utility.readDoc(getDataString(sOfficial));
+            Utility.readDoc(Utility.parseData(sOfficial, ""));
         }
     }
 }

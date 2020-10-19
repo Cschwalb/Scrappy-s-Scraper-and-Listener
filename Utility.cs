@@ -47,6 +47,7 @@ namespace WebScraper
             HtmlAgilityPack.HtmlDocument htmlDoc = new HtmlAgilityPack.HtmlDocument();
             HtmlAgilityPack.HtmlDocument loadedPage = new HtmlAgilityPack.HtmlDocument();
             loadedPage.Load(sData);
+            // we need to edit this...
             HtmlAgilityPack.HtmlNode[] nodes = loadedPage.DocumentNode.SelectNodes("//a").ToArray();
             foreach(HtmlAgilityPack.HtmlNode item in nodes)
             {
